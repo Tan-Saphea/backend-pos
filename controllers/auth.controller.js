@@ -80,3 +80,21 @@ exports.signin = async (req, res, next) => {
     next(error);
   }
 };
+
+exports.signout = async (req, res, next) => {
+  try {
+    // Clear the 'token' cookie
+    res.clearCookie("token", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV !== "development",
+      sameSite: "Strict",
+    });
+
+    res.status(200).json({
+      success: true,
+      message: "Signed out successfully",
+    });
+  } catch (error) {
+    next(error);
+  }
+};
